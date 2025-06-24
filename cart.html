@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سلة التسوق - ShoesHub</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>متجر ShoesHub للأحذية</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">المنتجات</a>
+            <a href="{{ url_for('cart') }}">السلة</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h2>سلة التسوق</h2>
+        
+        {% if cart_items %}
+        <div class="cart-items">
+            {% for item in cart_items %}
+            <div class="cart-item">
+                <img src="{{ url_for('static', filename='images/' + item[3]) }}" alt="{{ item[1] }}">
+                <div class="item-details">
+                    <h3>{{ item[1] }}</h3>
+                    <p class="price">{{ item[2] }} ر.س × {{ item[4] }}</p>
+                    <p class="subtotal">{{ item[2] * item[4] }} ر.س</p>
+                </div>
+                <a href="{{ url_for('remove_from_cart', item_id=item[0]) }}" class="remove-btn">×</a>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="cart-summary">
+            <h3>الإجمالي: {{ total }} ر.س</h3>
+            <button class="btn primary">إتمام الشراء</button>
+            <a href="{{ url_for('index') }}" class="btn">استمرار التسوق</a>
+        </div>
+        {% else %}
+        <div class="empty-cart">
+            <p>سلة التسوق فارغة</p>
+            <a href="{{ url_for('index') }}" class="btn primary">تصفح المنتجات</a>
+        </div>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p>© 2023 ShoesHub - جميع الحقوق محفوظة</p>
+    </footer>
+</body>
+</html>
